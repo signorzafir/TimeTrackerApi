@@ -15,7 +15,7 @@ namespace TimeTrackerAPI.Repositories
 
         public async Task<IEnumerable<Employee>> GetAllAsync()
         {
-            return await _context.Employees.ToListAsync();
+            return await _context.Employees.Include(e=>e.WorkEntries).ToListAsync();
         }
 
         public async Task<Employee?> GetByIdAsync(int id)
