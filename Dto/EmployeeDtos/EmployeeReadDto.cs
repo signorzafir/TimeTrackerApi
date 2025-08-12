@@ -15,7 +15,7 @@ namespace TimeTrackerAPI.Dto.Employee
         public string EmergencyContact { get; set; }
         [Precision(18, 2)]
         public decimal HourlyWage { get; set; }
-        public List<WorkEntrySimpleDto> WorkEntries { get; set; }
+        public IEnumerable<WorkEntrySimpleDto> WorkEntries { get; set; }
 
 
     }
