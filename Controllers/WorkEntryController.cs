@@ -35,7 +35,7 @@ namespace TimeTrackerAPI.Controllers
                 // If User is regular User, make sure they are accessing their own entries
                 if (User.IsInRole(ApiRoles.User))
                 {
-                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var userId = User.FindFirstValue(CustomClaimTypes.Uid);
                     var employee = await employeeRepository.GetByIdAsync(employeeId);
                     if (employee == null || employee.UserId != userId)
                         return Forbid();
@@ -67,7 +67,7 @@ namespace TimeTrackerAPI.Controllers
                 // If User, ensure they are accessing their own entries
                 if (User.IsInRole(ApiRoles.User))
                 {
-                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var userId = User.FindFirstValue(CustomClaimTypes.Uid);
                     if (employee.UserId != userId)
                         return Forbid();
                 }
@@ -82,8 +82,8 @@ namespace TimeTrackerAPI.Controllers
                 await workEntryRepository.SaveChangesAsync();
 
                 var readDto = mapper.Map<WorkEntryReadDto>(entry);
-                return CreatedAtAction(nameof(GetById), new { id = entry.Id }, readDto);
-
+               // return CreatedAtAction(nameof(GetById), new { id = entry.Id }, readDto);
+               return Ok(readDto);
             }
             catch (Exception)
             {
