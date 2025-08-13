@@ -33,7 +33,7 @@ namespace TimeTrackerAPI.Controllers
             try
             {
                 // If User is regular User, make sure they are accessing their own entries
-                if (User.IsInRole(ApiRoles.User))
+                if (User.IsInRole(ApiRoles.User) && !User.IsInRole(ApiRoles.Administrator))
                 {
                     var userId = User.FindFirstValue(CustomClaimTypes.Uid);
                     var employee = await employeeRepository.GetByIdAsync(employeeId);
@@ -65,7 +65,7 @@ namespace TimeTrackerAPI.Controllers
                     return BadRequest("Employee does not exist");
 
                 // If User, ensure they are accessing their own entries
-                if (User.IsInRole(ApiRoles.User))
+                if (User.IsInRole(ApiRoles.User) && !User.IsInRole(ApiRoles.Administrator))
                 {
                     var userId = User.FindFirstValue(CustomClaimTypes.Uid);
                     if (employee.UserId != userId)
