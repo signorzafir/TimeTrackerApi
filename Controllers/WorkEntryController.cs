@@ -27,7 +27,7 @@ namespace TimeTrackerAPI.Controllers
 
         // Get all entries for one employee 
         [HttpGet("GetWorkEntrybyEmployeeId/{employeeId}")]
-        [Authorize(Roles = ApiRoles.UserAndAdmin)]
+        //[Authorize(Roles = ApiRoles.UserAndAdmin)]
         public async Task<ActionResult<IEnumerable<WorkEntryReadDto>>> GetByEmployee(int employeeId)
         {
             try
@@ -161,6 +161,27 @@ namespace TimeTrackerAPI.Controllers
             {
                 return StatusCode(500, "An error occurred while deleting Entry.");
             }
+        }
+        [HttpPost("GetWorkEntryBySearchAndEmployeeId/{employeeId}")]
+        [Authorize(Roles = ApiRoles.UserAndAdmin)]
+
+        public async Task<ActionResult<IEnumerable<WorkEntryReadDto>>> GetWorkEntryBySearch(int employeeId,[FromBody] WorkEntrySearchDto workEntrySearchDto)
+        {
+            try
+            {
+                var workEntries = await workEntryRepository.GetWorkEntryBySearchAndEmployeeId(employeeId, workEntrySearchDto);
+                if (workEntries == null)
+                { return NotFound(); }
+                var workEntryReadDtos = mapper.Map<IEnumerable<WorkEntryReadDto>>(workEntries); 
+                return Ok(workEntryReadDtos);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500, "An error occurred while Loading Entries.");
+                
+            }
+            
         }
     }
 }
