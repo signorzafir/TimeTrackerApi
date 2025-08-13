@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TimeTrackerAPI.Data;
+using TimeTrackerAPI.Dto.WorkEntry;
 using TimeTrackerAPI.Models;
 using TimeTrackerAPI.Repositories.Interfaces;
 
@@ -49,6 +50,21 @@ namespace TimeTrackerAPI.Repositories
         public async Task<bool> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<IEnumerable<WorkEntry>> GetWorkEntryBySearch(int employeeId,WorkEntrySearchDto SearchDto)
+        {
+            return await _context.WorkEntries
+                    .Where(w => w.Date.Month == SearchDto.Month && w.Date.Year == SearchDto.Year)
+                    .ToListAsync();
+        }
+
+        public async Task<IEnumerable<WorkEntry>> GetWorkEntryBySearchAndEmployeeId(int employeeId, WorkEntrySearchDto SearchDto)
+        {
+            return await _context.WorkEntries
+                    .Include(w=>w.Employee)
+                    .Where(w => w.EmployeeId == employeeId &&  w.Date.Month == SearchDto.Month && w.Date.Year == SearchDto.Year )
+                    .ToListAsync();
         }
     }
 }

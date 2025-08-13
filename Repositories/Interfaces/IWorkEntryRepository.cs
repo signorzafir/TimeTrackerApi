@@ -1,4 +1,5 @@
-﻿using TimeTrackerAPI.Models;
+﻿using TimeTrackerAPI.Dto.WorkEntry;
+using TimeTrackerAPI.Models;
 
 namespace TimeTrackerAPI.Repositories.Interfaces
 {
@@ -11,5 +12,6 @@ namespace TimeTrackerAPI.Repositories.Interfaces
         void Update(WorkEntry workEntry);
         void Delete(WorkEntry workEntry);
         Task<bool> SaveChangesAsync();
+        Task<IEnumerable<WorkEntry>> GetWorkEntryBySearchAndEmployeeId(int employeeId, WorkEntrySearchDto SearchDto);
     }
 }
