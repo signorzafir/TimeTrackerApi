@@ -12,8 +12,8 @@ using TimeTrackerAPI.Data;
 namespace TimeTrackerAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250804145123_init")]
-    partial class init
+    [Migration("20250814010602_initSeedingUpdate")]
+    partial class initSeedingUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,20 @@ namespace TimeTrackerAPI.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "11163a23-ce1b-4809-b39d-8f153489a4cb",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "6880cbe1-c055-455e-b6ca-c0060ddc28c2",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -137,6 +151,23 @@ namespace TimeTrackerAPI.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "78158e67-cea7-4398-9304-715aebaff2ae",
+                            RoleId = "11163a23-ce1b-4809-b39d-8f153489a4cb"
+                        },
+                        new
+                        {
+                            UserId = "78158e67-cea7-4398-9304-715aebaff2ae",
+                            RoleId = "6880cbe1-c055-455e-b6ca-c0060ddc28c2"
+                        },
+                        new
+                        {
+                            UserId = "51841e02-fa5b-4e18-9eef-b3f78eefff51",
+                            RoleId = "11163a23-ce1b-4809-b39d-8f153489a4cb"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -176,6 +207,10 @@ namespace TimeTrackerAPI.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -221,6 +256,42 @@ namespace TimeTrackerAPI.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "78158e67-cea7-4398-9304-715aebaff2ae",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f768e6ed-79e1-4939-8a81-c23be430961b",
+                            Email = "admin@timetracker.com",
+                            EmailConfirmed = true,
+                            FullName = "System Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@TIMETRACKER.COM",
+                            NormalizedUserName = "ADMIN@TIMETRACKER.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDoBzQ5PB7kefERvqTpxoTkmkZrm1MfQrIlC76PtKI5pCAeUe0a4zBMTwi4Ah8Ibzw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "d94fb2b4-c9dd-43bf-9e4d-3a4ccd44f846",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@timetracker.com"
+                        },
+                        new
+                        {
+                            Id = "51841e02-fa5b-4e18-9eef-b3f78eefff51",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "955c8ed5-c837-4faa-965f-9c34807e50d1",
+                            Email = "annasmith@timetracker.com",
+                            EmailConfirmed = true,
+                            FullName = "Anna Smith",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ANNASMITH@TIMETRACKER.COM",
+                            NormalizedUserName = "ANNASMITH@TIMETRACKER.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDoBzQ5PB7kefERvqTpxoTkmkZrm1MfQrIlC76PtKI5pCAeUe0a4zBMTwi4Ah8Ibzw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "775bf960-3b19-4f9e-b750-b1497da2761f",
+                            TwoFactorEnabled = false,
+                            UserName = "annasmith@timetracker.com"
+                        });
                 });
 
             modelBuilder.Entity("TimeTrackerAPI.Models.Employee", b =>
@@ -255,9 +326,40 @@ namespace TimeTrackerAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "First Street 123, Stockholm",
+                            EmergencyContact = "9876543210",
+                            FullName = "System Admin",
+                            HourlyWage = 200m,
+                            PersonalNumber = "850101-1234",
+                            PhoneNumber = "1234567890",
+                            UserId = "78158e67-cea7-4398-9304-715aebaff2ae"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "Sample Road 2, Göteborg",
+                            EmergencyContact = "073-1122334",
+                            FullName = "Anna Smith",
+                            HourlyWage = 180m,
+                            PersonalNumber = "900202-5678",
+                            PhoneNumber = "073-9876543",
+                            UserId = "51841e02-fa5b-4e18-9eef-b3f78eefff51"
+                        });
                 });
 
             modelBuilder.Entity("TimeTrackerAPI.Models.WorkEntry", b =>
@@ -339,6 +441,15 @@ namespace TimeTrackerAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TimeTrackerAPI.Models.Employee", b =>
+                {
+                    b.HasOne("TimeTrackerAPI.Data.ApplicationUser", "User")
+                        .WithOne("Employee")
+                        .HasForeignKey("TimeTrackerAPI.Models.Employee", "UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TimeTrackerAPI.Models.WorkEntry", b =>
                 {
                     b.HasOne("TimeTrackerAPI.Models.Employee", "Employee")
@@ -347,6 +458,11 @@ namespace TimeTrackerAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("TimeTrackerAPI.Data.ApplicationUser", b =>
+                {
                     b.Navigation("Employee");
                 });
 

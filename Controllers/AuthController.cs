@@ -109,7 +109,7 @@ namespace TimeTrackerAPI.Controllers
 
                 await userManager.AddToRoleAsync(user, ApiRoles.User);
 
-                return StatusCode(201);
+                return Ok();
 
             }
             catch (Exception)

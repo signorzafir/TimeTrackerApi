@@ -164,11 +164,6 @@ namespace TimeTrackerAPI.Migrations
                         {
                             UserId = "51841e02-fa5b-4e18-9eef-b3f78eefff51",
                             RoleId = "11163a23-ce1b-4809-b39d-8f153489a4cb"
-                        },
-                        new
-                        {
-                            UserId = "397752af-b4a2-46fe-bef1-22ce604f9337",
-                            RoleId = "11163a23-ce1b-4809-b39d-8f153489a4cb"
                         });
                 });
 
@@ -264,7 +259,7 @@ namespace TimeTrackerAPI.Migrations
                         {
                             Id = "78158e67-cea7-4398-9304-715aebaff2ae",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e2823af1-27c3-4a7a-934f-845b33299371",
+                            ConcurrencyStamp = "f768e6ed-79e1-4939-8a81-c23be430961b",
                             Email = "admin@timetracker.com",
                             EmailConfirmed = true,
                             FullName = "System Admin",
@@ -273,7 +268,7 @@ namespace TimeTrackerAPI.Migrations
                             NormalizedUserName = "ADMIN@TIMETRACKER.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEDoBzQ5PB7kefERvqTpxoTkmkZrm1MfQrIlC76PtKI5pCAeUe0a4zBMTwi4Ah8Ibzw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8018102c-0f7b-4d1e-a3f0-3fe2223132e9",
+                            SecurityStamp = "d94fb2b4-c9dd-43bf-9e4d-3a4ccd44f846",
                             TwoFactorEnabled = false,
                             UserName = "admin@timetracker.com"
                         },
@@ -281,35 +276,18 @@ namespace TimeTrackerAPI.Migrations
                         {
                             Id = "51841e02-fa5b-4e18-9eef-b3f78eefff51",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4105d78f-b5a3-4cfe-ae2b-8966e60aa97e",
-                            Email = "alphauser@timetracker.com",
+                            ConcurrencyStamp = "955c8ed5-c837-4faa-965f-9c34807e50d1",
+                            Email = "annasmith@timetracker.com",
                             EmailConfirmed = true,
-                            FullName = "Alpha User",
+                            FullName = "Anna Smith",
                             LockoutEnabled = false,
-                            NormalizedEmail = "ALPHAUSER@TIMETRACKER.COM",
-                            NormalizedUserName = "ALPHAUSER@TIMETRACKER.COM",
+                            NormalizedEmail = "ANNASMITH@TIMETRACKER.COM",
+                            NormalizedUserName = "ANNASMITH@TIMETRACKER.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEDoBzQ5PB7kefERvqTpxoTkmkZrm1MfQrIlC76PtKI5pCAeUe0a4zBMTwi4Ah8Ibzw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5de89b89-3b6f-4f3d-b9ee-dbc84eb3056b",
+                            SecurityStamp = "775bf960-3b19-4f9e-b750-b1497da2761f",
                             TwoFactorEnabled = false,
-                            UserName = "alphauser@timetracker.com"
-                        },
-                        new
-                        {
-                            Id = "397752af-b4a2-46fe-bef1-22ce604f9337",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "4eac806f-5d7a-454e-9e8a-11fd68fe211f",
-                            Email = "bravouser@timetracker.com",
-                            EmailConfirmed = true,
-                            FullName = "Bravo User",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "BRAVOUSER@TIMETRACKER.COM",
-                            NormalizedUserName = "BRAVOUSER@TIMETRACKER.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDoBzQ5PB7kefERvqTpxoTkmkZrm1MfQrIlC76PtKI5pCAeUe0a4zBMTwi4Ah8Ibzw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "72140a95-7d95-431c-b1ba-40d769fd662e",
-                            TwoFactorEnabled = false,
-                            UserName = "bravouser@timetracker.com"
+                            UserName = "annasmith@timetracker.com"
                         });
                 });
 
@@ -346,15 +324,39 @@ namespace TimeTrackerAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "First Street 123, Stockholm",
+                            EmergencyContact = "9876543210",
+                            FullName = "System Admin",
+                            HourlyWage = 200m,
+                            PersonalNumber = "850101-1234",
+                            PhoneNumber = "1234567890",
+                            UserId = "78158e67-cea7-4398-9304-715aebaff2ae"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "Sample Road 2, Göteborg",
+                            EmergencyContact = "073-1122334",
+                            FullName = "Anna Smith",
+                            HourlyWage = 180m,
+                            PersonalNumber = "900202-5678",
+                            PhoneNumber = "073-9876543",
+                            UserId = "51841e02-fa5b-4e18-9eef-b3f78eefff51"
+                        });
                 });
 
             modelBuilder.Entity("TimeTrackerAPI.Models.WorkEntry", b =>
@@ -440,9 +442,7 @@ namespace TimeTrackerAPI.Migrations
                 {
                     b.HasOne("TimeTrackerAPI.Data.ApplicationUser", "User")
                         .WithOne("Employee")
-                        .HasForeignKey("TimeTrackerAPI.Models.Employee", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TimeTrackerAPI.Models.Employee", "UserId");
 
                     b.Navigation("User");
                 });
