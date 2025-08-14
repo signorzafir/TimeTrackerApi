@@ -98,7 +98,7 @@ namespace TimeTrackerAPI.Controllers
                 mapper.Map(dto, employee);
                 employeeRepo.Update(employee);
                 await employeeRepo.SaveChangesAsync();
-                return NoContent();
+                return Ok();
 
             }
             catch (Exception)

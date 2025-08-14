@@ -59,25 +59,15 @@ namespace TimeTrackerAPI.Data
                     new ApplicationUser
                     {
                         Id = "51841e02-fa5b-4e18-9eef-b3f78eefff51",
-                        Email = "alphauser@timetracker.com",
-                        NormalizedEmail = "ALPHAUSER@TIMETRACKER.COM",
-                        UserName = "alphauser@timetracker.com",
-                        NormalizedUserName = "ALPHAUSER@TIMETRACKER.COM",
-                        FullName = "Alpha User",
-                        PasswordHash = "AQAAAAIAAYagAAAAEDoBzQ5PB7kefERvqTpxoTkmkZrm1MfQrIlC76PtKI5pCAeUe0a4zBMTwi4Ah8Ibzw==",
-                        EmailConfirmed = true
-                    },
-                    new ApplicationUser
-                    {
-                        Id = "397752af-b4a2-46fe-bef1-22ce604f9337",
-                        Email = "bravouser@timetracker.com",
-                        NormalizedEmail = "BRAVOUSER@TIMETRACKER.COM",
-                        UserName = "bravouser@timetracker.com",
-                        NormalizedUserName = "BRAVOUSER@TIMETRACKER.COM",
-                        FullName = "Bravo User",
+                        Email = "annasmith@timetracker.com",
+                        NormalizedEmail = "ANNASMITH@TIMETRACKER.COM",
+                        UserName = "annasmith@timetracker.com",
+                        NormalizedUserName = "ANNASMITH@TIMETRACKER.COM",
+                        FullName = "Anna Smith",
                         PasswordHash = "AQAAAAIAAYagAAAAEDoBzQ5PB7kefERvqTpxoTkmkZrm1MfQrIlC76PtKI5pCAeUe0a4zBMTwi4Ah8Ibzw==",
                         EmailConfirmed = true
                     }
+                    
                 );
 
             //Seeding UserRoles
@@ -100,14 +90,36 @@ namespace TimeTrackerAPI.Data
                     {
                         UserId = "51841e02-fa5b-4e18-9eef-b3f78eefff51",
                         RoleId = "11163a23-ce1b-4809-b39d-8f153489a4cb"
-                    },
-                    //BravoUser = User
-                    new IdentityUserRole<string>
-                    {
-                        UserId = "397752af-b4a2-46fe-bef1-22ce604f9337",
-                        RoleId = "11163a23-ce1b-4809-b39d-8f153489a4cb"
                     }
+                    
                 );
+            builder.Entity<Employee>().HasData(
+
+                new Employee
+                {
+                    Id = 1,
+                    FullName = "System Admin",
+                    UserId = "78158e67-cea7-4398-9304-715aebaff2ae",
+                    HourlyWage = 200m,
+                    PersonalNumber = "850101-1234",
+                    PhoneNumber = "1234567890",
+                    Address = "First Street 123, Stockholm",
+                    EmergencyContact = "9876543210"
+
+                },
+                new Employee
+                {
+                    Id = 2,
+                    FullName = "Anna Smith",
+                    UserId = "51841e02-fa5b-4e18-9eef-b3f78eefff51",
+                    HourlyWage = 180m,
+                    PersonalNumber = "900202-5678",
+                    PhoneNumber = "073-9876543",
+                    Address = "Sample Road 2, Göteborg",
+                    EmergencyContact = "073-1122334"
+                });
+
+            
         }
     }
 }
